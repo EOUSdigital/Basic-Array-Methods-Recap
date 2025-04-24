@@ -1,0 +1,165 @@
+// 🎯 Project 1: Task Dashboard
+
+//* 📝 Scenario:
+//  We are building a dashboard for a team to manage their daily tasks.
+
+//* Dataset Example:
+
+const tasks2 = [
+    { title: 'Submit report', done: false, priority: 'high' },
+    { title: 'Email client', done: true, priority: 'low' },
+    { title: 'Update website', done: false, priority: 'medium' },
+    { title: 'Team meeting', done: false, priority: 'high' },
+    { title: 'Backup files', done: false, priority: 'low' },
+];
+
+//* ✅ Features to Implement:
+//  1. Filter tasks that are still pending.
+//  2. Map them to format:
+//  - "⚠️ High Priority: Submit report"
+//  3. Find the first high-priority task.
+//  4. Log:
+//  • Pending tasks list.
+//  • Highlight the first urgent task.
+//  • If no high-priority task exists, show:
+//      - "✅ No urgent tasks pending!"
+
+//! Solution
+
+const pendingTasks = tasks2
+    .filter(task => !task.done)
+    .map(task => `⚠️ ${task.priority.toUpperCase()} Priority: ${task.title}`);
+
+console.log('📝 Pending Tasks:');
+console.log(pendingTasks);
+
+const highPriorityTask = tasks2.find(task => !task.done && task.priority === 'high');
+
+if (highPriorityTask) {
+    console.log(`🚨 Urgent Task: ${highPriorityTask.title}`);
+} else {
+    console.log("✅ No urgent tasks pending!");
+};
+
+
+// 🛒 Project 2: Product Filter System
+
+//* 🎯 Scenario:
+//  We are building the backend logic for a product dashboard where users can:
+//  1. Filter products by:
+//  • In stock
+//  • Price range
+//  2. Highlight premium items (over $1000).
+//  3. Find a specific product by brand.
+//  4. Display:
+//  • A clean list of available products.
+//  • A special note if a premium product exists.
+//  • A fallback if no products match the search.
+
+const products6 = [
+    { name: 'Laptop', price: 1500, inStock: true, brand: 'NovaTech' },
+    { name: 'Phone', price: 900, inStock: false, brand: 'TechEdge' },
+    { name: 'Tablet', price: 700, inStock: true, brand: 'NovaTech' },
+    { name: 'Monitor', price: 300, inStock: true, brand: 'DisplayWorks' },
+    { name: 'Headphones', price: 200, inStock: true, brand: 'AudioMax' },
+];
+
+//* ✅ Features to Implement:
+//  1. Filter:
+//  • Only products that are in stock.
+//  • Price is greater than or equal to a dynamic minPrice (e.g., 300).
+//  2. Map the filtered products to this format:
+//  - "Laptop - $1500 (NovaTech)"
+//  3. Find the first product from a dynamic searchBrand (e.g., 'NovaTech').
+//  4. Log:
+//  • The list of available products.
+//  • If any product is premium (price > 1000), log:
+//      - "🔥 Premium item available!"
+//  • If no products match, log:
+//      - "❌ No products available in this range."
+
+//! Solution
+
+const searchBrand2 = 'NovaTech';
+const minPrice = 300;
+
+const filteredProducts2 = products6
+    .filter(product => product.inStock && product.price >= minPrice);
+
+const displayProducts = filteredProducts2 
+    .map(product => `${product.name} - $${product.price} (${product.brand})`);
+
+const featuredProduct2 = filteredProducts2
+    .find(product => product.brand === searchBrand2);
+
+const hasPremium = filteredProducts2.some(product => product.price > 1000);
+
+if (displayProducts.length > 0) {
+    console.log('Available Products:', displayProducts);
+    if (hasPremium) {
+        console.log(`🔥 Premium item available!`);
+    };
+
+    if (featuredProduct2) {
+        console.log(`🎯 First ${searchBrand2} product: ${featuredProduct2.name}`);
+    };
+} else {
+    console.log(`❌ No products available in this range.`);
+};
+
+
+// 👥 Project 3: User Management Tool
+
+//* 🎯 Scenario:
+//  We are building backend logic for an Admin Dashboard that manages user accounts.
+//  Admins need to:
+//  1. View active users.
+//  2. Highlight users with the role of 'admin'.
+//  3. Find the first user who needs password reset.
+//  4. Generate a clean user report.
+
+//* ✅ Dataset Example:
+
+const users3 = [
+    { username: 'alice', active: true, role: 'user', needsPasswordReset: false },
+    { username: 'bob', active: false, role: 'admin', needsPasswordReset: true },
+    { username: 'carol', active: true, role: 'admin', needsPasswordReset: false },
+    { username: 'dave', active: true, role: 'user', needsPasswordReset: true },
+    { username: 'eve', active: false, role: 'user', needsPasswordReset: false },
+];
+
+//* ✅ Features to Implement:
+//  1. Filter users who are active.
+//  2. Map them to this format:
+//  - "carol (admin)"
+//  3. Use .find() to locate the first user who needsPasswordReset.
+//  4. Log:
+//  • The list of active users.
+//  • A message like "🔐 Password reset needed for: bob" if found.
+//  • If no resets are needed, log "✅ All passwords up to date!".
+//  5. Bonus: If there are no active users, log "⚠️ No active users found!".
+
+//! Solution
+
+const activeUsers2 = users3.filter(user => user.active);
+
+const displayUsers = activeUsers2.map(user => `${user.username} - (${user.role})`);
+
+const needsPasswordReset = users3.find(user => user.needsPasswordReset);
+
+if (activeUsers2.length === 0) {
+    console.log('⚠️ No active users found!');
+} else {
+    const displayUsers = activeUsers2.map(user => `${user.username} (${user.role})`);
+    console.log('Active Users:');
+    console.log(displayUsers);
+
+    const needsPasswordReset = users3.find(user => user.needsPasswordReset);
+
+    if (needsPasswordReset) {
+        console.log(`🔐 Password reset needed for: ${needsPasswordReset.username}`);
+    } else {
+        console.log(`✅ All passwords up to date!`);
+    };
+};
+
